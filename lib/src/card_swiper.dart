@@ -98,6 +98,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   double _angle = 0;
   final double _initialScale = 0.9;
   late double _scale = _initialScale;
+  final double _initialDifference = 50;
+  late double _difference = _initialDifference;
 
   SwipeType _swipeType = SwipeType.none;
   bool _tapOnTop = false; //position of starting drag point on card
@@ -288,8 +290,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         _top = 0;
         _total = 0;
         _angle = 0;
-        _scale = widget.scale;
-        _difference = 40;
+        _scale = _initialScale;
+        _difference = _initialDifference;
         _swipeType = SwipeType.none;
       });
     }
@@ -303,16 +305,18 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   }
 
   void _calculateScale() {
-    if (_scale <= 1.0 && _scale >= widget.scale) {
+    if (_scale <= 1.0 && _scale >= _initialScale) {
       _scale = (_total > 0)
-          ? widget.scale + (_total / 5000)
-          : widget.scale + -1 * (_total / 5000);
+          ? _initialScale + (_total / 5000)
+          : _initialScale + -1 * (_total / 5000);
     }
   }
 
   void _calculateDifference() {
     if (_difference >= 0 && _difference <= _difference) {
-      _difference = (_total > 0) ? 40 - (_total / 10) : 40 + (_total / 10);
+      _difference = (_total > 0)
+          ? _initialDifference - (_total / 10)
+          : _initialDifference + (_total / 10);
     }
   }
 
@@ -426,11 +430,11 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
     ).animate(_animationController);
     _scaleAnimation = Tween<double>(
       begin: _scale,
-      end: widget.scale,
+      end: _initialScale,
     ).animate(_animationController);
     _differenceAnimation = Tween<double>(
       begin: _difference,
-      end: 40,
+      end: _initialDifference,
     ).animate(_animationController);
 
     _swipeType = SwipeType.back;
