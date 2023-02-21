@@ -25,7 +25,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   final int threshold;
 
   /// scale of the card that is behind the front card
-  final double scale;
+  // final double scale;
 
   /// set to true if swiping should be disabled, exception: triggered from the outside
   final bool isDisabled;
@@ -59,7 +59,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.maxAngle = 30,
     this.threshold = 50,
-    this.scale = 0.9,
+    // this.scale = 0.9,
     this.isDisabled = false,
     this.onTapDisabled,
     this.onSwipe,
@@ -80,10 +80,10 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
           direction != CardSwiperDirection.none,
           'direction must not be none',
         ),
-        assert(
-          scale >= 0 && scale <= 1,
-          'scale must be between 0 and 1',
-        ),
+        // assert(
+        //   scale >= 0 && scale <= 1,
+        //   'scale must be between 0 and 1',
+        // ),
         super(key: key);
 
   @override
@@ -96,8 +96,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   double _top = 0;
   double _total = 0;
   double _angle = 0;
-  late double _scale = widget.scale;
-  double _difference = 40;
+  final double _initialScale = 0.9;
+  late double _scale = _initialScale;
 
   SwipeType _swipeType = SwipeType.none;
   bool _tapOnTop = false; //position of starting drag point on card
