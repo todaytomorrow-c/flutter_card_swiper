@@ -166,6 +166,16 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
     );
   }
 
+  Widget _cardBox({
+    required BoxConstraints constraints,
+    required Widget child,
+  }) {
+    return SizedBox(
+      width: constraints.maxWidth,
+      height: constraints.maxHeight - 50,
+      child: child,
+    );
+  }
   Widget _frontItem(BoxConstraints constraints) {
     return Positioned(
       left: _left,
