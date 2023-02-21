@@ -118,7 +118,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
 
   int get _currentIndex => _stack.length - 1;
   bool get _canSwipe => _stack.isNotEmpty && !widget.isDisabled;
-  bool get _hasBackItem => _stack.length > 1 || widget.isLoop;
+  bool get _hasBackItem => _stack.length > 2 || widget.isLoop;
+  bool get _hasMiddleItem => _stack.length > 1 || widget.isLoop;
 
   @override
   void initState() {
@@ -154,8 +155,10 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
               return Stack(
                 clipBehavior: Clip.none,
                 fit: StackFit.expand,
+                alignment: AlignmentDirectional.topCenter,
                 children: [
                   if (_hasBackItem) _backItem(constraints),
+                  if (_hasMiddleItem) _middleItem(constraints),
                   if (_stack.isNotEmpty) _frontItem(constraints),
                 ],
               );
@@ -176,18 +179,12 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
       child: child,
     );
   }
+
   Widget _frontItem(BoxConstraints constraints) {
     return Positioned(
-      left: _left,
       top: _top,
+      left: _left,
       child: GestureDetector(
-        child: Transform.rotate(
-          angle: _angle,
-          child: ConstrainedBox(
-            constraints: constraints,
-            child: widget.cards[_currentIndex],
-          ),
-        ),
         onTap: () {
           if (widget.isDisabled) {
             widget.onTapDisabled?.call();
@@ -224,23 +221,49 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
             _animationController.forward();
           }
         },
+        child: Transform.rotate(
+          angle: _angle,
+          child: _cardBox(
+            constraints: constraints,
+            child: widget.cards[_currentIndex],
+          ),
+        ),
       ),
     );
   }
 
-  Widget _backItem(BoxConstraints constraints) {
+  Widget _middleItem(BoxConstraints constraints) {
     return Positioned(
       top: _difference,
       left: 0,
       child: Transform.scale(
+        origin: const Offset(0.5, 1.0),
         scale: _scale,
-        child: ConstrainedBox(
+        child: _cardBox(
           constraints: constraints,
           child: _stack.length <= 1
               ? widget.cards.last
               : widget.cards[_currentIndex - 1],
         ),
       ),
+    );
+  }
+
+  Widget _backItem(BoxConstraints constraints) {
+    return Positioned(
+      top: _difference + (_initialDifference * _initialScale),
+      left: 0,
+      child: Transform.scale(
+          origin: const Offset(0.5, 1.0),
+          scale: _scale * _initialScale,
+          child: _cardBox(
+            constraints: constraints,
+            child: _stack.length <= 1
+                ? widget.cards.last
+                : _stack.length <= 2
+                    ? widget.cards[_currentIndex - 1]
+                    : widget.cards[_currentIndex - 2],
+          )),
     );
   }
 
