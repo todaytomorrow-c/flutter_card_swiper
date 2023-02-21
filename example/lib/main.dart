@@ -37,7 +37,7 @@ class _ExamplePageState extends State<Example> {
                 controller: controller,
                 cards: cards,
                 onSwipe: _swipe,
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.all(8.0),
               ),
             ),
             Padding(
