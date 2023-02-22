@@ -347,7 +347,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   void _calculateAngle() {
     if (_angle <= _maxAngle && _angle >= -_maxAngle) {
       _angle = (_maxAngle / 100) * (_left / 10);
-      if (_tapOnTop) _angle *= -1;
+      if (!_tapOnTop) _angle *= -1;
     }
   }
 
