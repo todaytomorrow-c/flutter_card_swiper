@@ -1,5 +1,4 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_card_swiper/src/enums.dart';
+part of 'card_swiper.dart';
 
 //to call the swipe function from outside of the CardSwiper
 class CardSwiperController extends ChangeNotifier {

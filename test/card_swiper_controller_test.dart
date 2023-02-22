@@ -1,5 +1,4 @@
-import 'package:flutter_card_swiper/src/card_swiper_controller.dart';
-import 'package:flutter_card_swiper/src/enums.dart';
+import 'package:flutter_card_swiper/src/card_swiper.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

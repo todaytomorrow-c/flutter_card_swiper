@@ -1,7 +1,4 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_card_swiper/src/enums.dart';
-
-import 'model_properties.dart';
+part of 'card_swiper.dart';
 
 typedef CardSwiperOnSwipe = void Function(
   int index,

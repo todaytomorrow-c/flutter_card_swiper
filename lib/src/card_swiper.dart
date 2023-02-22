@@ -1,9 +1,9 @@
 import 'dart:math';
-
 import 'package:flutter/widgets.dart';
-import 'package:flutter_card_swiper/src/card_swiper_controller.dart';
-import 'package:flutter_card_swiper/src/enums.dart';
-import 'package:flutter_card_swiper/src/typedefs.dart';
+
+part 'card_swiper_controller.dart';
+part 'enums.dart';
+part 'typedefs.dart';
 
 class CardSwiper<T extends Widget> extends StatefulWidget {
   /// list of widgets for the swiper
