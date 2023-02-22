@@ -107,6 +107,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   late double _scale = _initialScale;
   final double _initialDifference = 50;
   late double _difference = _initialDifference;
+  double _progress = 0;
 
   SwipeType _swipeType = SwipeType.none;
   bool _tapOnTop = false; //position of starting drag point on card
@@ -223,6 +224,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
               _calculateScale();
               _calculateDifference();
               _calculateDirection();
+              _calculateProgress();
             });
           }
         },
@@ -343,6 +345,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         _top = 0;
         _total = 0;
         _angle = 0;
+        _progress = 0;
         detectedDirection = CardSwiperDirection.none;
         _scale = _initialScale;
         _difference = _initialDifference;
@@ -393,6 +396,26 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
       detectedDirection = CardSwiperDirection.left;
     } else {
       detectedDirection = CardSwiperDirection.none;
+    }
+  }
+
+  void _calculateProgress() {
+    switch (detectedDirection) {
+      case CardSwiperDirection.top:
+        _progress = _top / -widget.threshold;
+        break;
+      case CardSwiperDirection.bottom:
+        _progress = _top / widget.threshold;
+        break;
+      case CardSwiperDirection.right:
+        _progress = _left / widget.threshold;
+        break;
+      case CardSwiperDirection.left:
+        _progress = _left / -widget.threshold;
+        break;
+      case CardSwiperDirection.none:
+        _progress = 0;
+        break;
     }
   }
 
