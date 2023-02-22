@@ -38,6 +38,9 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   final CardSwiperOnEnd? onEnd;
 
   final CardSwiperCardBuilder cardBuilder;
+
+  final CardSwiperOverlayBuilder? overlayBuilder;
+
   /// function that gets triggered when the swiper is disabled
   final CardSwiperOnTapDisabled? onTapDisabled;
 
@@ -66,6 +69,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     this.onTapDisabled,
     this.onSwipe,
     this.onEnd,
+    this.overlayBuilder,
     this.direction = CardSwiperDirection.right,
     this.isHorizontalSwipingEnabled = true,
     this.isVerticalSwipingEnabled = true,
@@ -227,7 +231,15 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
           angle: _angle,
           child: _cardBox(
             constraints: constraints,
-            child: widget.cards[_currentIndex],
+            child: Stack(
+              children: [
+                widget.cards[_currentIndex],
+                Positioned.fill(
+                  child: _buildOverlay(
+                      constraints: constraints, direction: detectedDirection),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -482,5 +494,24 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
     final card = widget.cardBuilder.call(context, child);
 
     return card;
+  }
+
+  Widget _buildOverlay({
+    required BoxConstraints constraints,
+    required CardSwiperDirection direction,
+  }) {
+    final overlay = widget.overlayBuilder?.call(
+      context,
+      OverlaySwipeProperties(
+        index: _currentIndex,
+        constraints: constraints,
+        direction: direction,
+        swipeProgress: _progress,
+      ),
+    );
+    return Opacity(
+      opacity: min(_progress, 1),
+      child: overlay,
+    );
   }
 }
