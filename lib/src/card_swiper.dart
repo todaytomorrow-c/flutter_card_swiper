@@ -222,6 +222,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
               _calculateAngle();
               _calculateScale();
               _calculateDifference();
+              _calculateDirection();
             });
           }
         },
@@ -342,6 +343,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         _top = 0;
         _total = 0;
         _angle = 0;
+        detectedDirection = CardSwiperDirection.none;
         _scale = _initialScale;
         _difference = _initialDifference;
         _swipeType = SwipeType.none;
@@ -372,6 +374,27 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
     }
   }
 
+  void _calculateDirection() {
+    if (widget.enabledDirections.contains(CardSwiperDirection.top) &&
+        _top < -40 &&
+        _top.abs() > _left.abs()) {
+      detectedDirection = CardSwiperDirection.top;
+    } else if (widget.enabledDirections.contains(CardSwiperDirection.bottom) &&
+        _top > 40 &&
+        _top.abs() > _left.abs()) {
+      detectedDirection = CardSwiperDirection.bottom;
+    } else if (widget.enabledDirections.contains(CardSwiperDirection.right) &&
+        _left > 10 &&
+        _left.abs() > _top.abs()) {
+      detectedDirection = CardSwiperDirection.right;
+    } else if (widget.enabledDirections.contains(CardSwiperDirection.left) &&
+        _left < -10 &&
+        _left.abs() > _top.abs()) {
+      detectedDirection = CardSwiperDirection.left;
+    } else {
+      detectedDirection = CardSwiperDirection.none;
+    }
+  }
 
   void _onEndAnimation() {
     if (_left < -widget.threshold &&
