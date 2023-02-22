@@ -63,7 +63,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
     this.duration = const Duration(milliseconds: 200),
     this.maxAngle = 30,
-    this.threshold = 50,
+    this.threshold = 175,
     // this.scale = 0.9,
     this.isDisabled = false,
     this.onTapDisabled,
@@ -80,8 +80,8 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
           'maxAngle must be between 0 and 360',
         ),
         assert(
-          threshold >= 1 && threshold <= 100,
-          'threshold must be between 1 and 100',
+          threshold >= 1 && threshold <= 200,
+          'threshold must be between 1 and 200',
         ),
         assert(
           direction != CardSwiperDirection.none,
