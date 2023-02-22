@@ -1,3 +1,4 @@
+import 'package:example/card_label.dart';
 import 'package:example/example_candidate_model.dart';
 import 'package:example/example_card.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +39,20 @@ class _ExamplePageState extends State<Example> {
                 cards: cards,
                 onSwipe: _swipe,
                 padding: const EdgeInsets.all(8.0),
+                cardBuilder: (context, child) =>
+                    ExampleCardContainer(child: child),
+                enabledDirections: const [
+                  CardSwiperDirection.top,
+                  CardSwiperDirection.left,
+                  CardSwiperDirection.right
+                ],
+                overlayBuilder: (context, properties) {
+                  return Container(
+                    padding: const EdgeInsets.all(24),
+                    color: Colors.black26,
+                    child: CardLabel.forDirection(properties.direction),
+                  );
+                },
               ),
             ),
             Padding(
