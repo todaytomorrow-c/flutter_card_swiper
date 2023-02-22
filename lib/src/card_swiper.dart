@@ -74,6 +74,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     this.isHorizontalSwipingEnabled = true,
     this.isVerticalSwipingEnabled = true,
     this.isLoop = true,
+    required this.cardBuilder,
   })  : assert(
           maxAngle >= 0 && maxAngle <= 360,
           'maxAngle must be between 0 and 360',
