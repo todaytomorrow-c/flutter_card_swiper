@@ -1,3 +1,4 @@
+
 part of 'card_swiper.dart';
 
 abstract class SwipeProperties {

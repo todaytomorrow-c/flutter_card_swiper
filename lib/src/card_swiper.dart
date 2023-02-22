@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 
 part 'card_swiper_controller.dart';
 part 'enums.dart';
-part 'model_properties.dart';
+part 'swipe_properties.dart';
 part 'typedefs.dart';
 
 class CardSwiper<T extends Widget> extends StatefulWidget {
