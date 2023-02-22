@@ -37,9 +37,13 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   /// function that gets called when there is no widget left to be swiped away
   final CardSwiperOnEnd? onEnd;
 
+  final CardSwiperItemBuilder builder;
+
   final CardSwiperCardBuilder cardBuilder;
 
   final CardSwiperOverlayBuilder? overlayBuilder;
+
+  final Function()? onTap;
 
   /// function that gets triggered when the swiper is disabled
   final CardSwiperOnTapDisabled? onTapDisabled;
@@ -60,8 +64,8 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     this.duration = const Duration(milliseconds: 200),
     this.maxAngle = 30,
     this.threshold = 175,
-    // this.scale = 0.9,
     this.isDisabled = false,
+    this.onTap,
     this.onTapDisabled,
     this.onSwipe,
     this.onEnd,
@@ -196,6 +200,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         onTap: () {
           if (widget.isDisabled) {
             widget.onTapDisabled?.call();
+          } else {
+            widget.onTap?.call();
           }
         },
         onPanStart: (tapInfo) {
