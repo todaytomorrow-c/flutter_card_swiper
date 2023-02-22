@@ -37,6 +37,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   /// function that gets called when there is no widget left to be swiped away
   final CardSwiperOnEnd? onEnd;
 
+  final CardSwiperCardBuilder cardBuilder;
   /// function that gets triggered when the swiper is disabled
   final CardSwiperOnTapDisabled? onTapDisabled;
 
@@ -177,7 +178,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
     return SizedBox(
       width: constraints.maxWidth,
       height: constraints.maxHeight - 50,
-      child: child,
+      child: _buildCard(constraints: constraints, child: child),
     );
   }
 
@@ -472,5 +473,14 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
     ).animate(_animationController);
 
     _swipeType = SwipeType.back;
+  }
+
+  Widget _buildCard({
+    required BoxConstraints constraints,
+    required Widget child,
+  }) {
+    final card = widget.cardBuilder.call(context, child);
+
+    return card;
   }
 }
