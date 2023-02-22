@@ -47,11 +47,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   /// direction in which the card gets swiped when triggered by controller, default set to right
   final CardSwiperDirection direction;
 
-  /// set to false if you want your card to move only across the vertical axis when swiping
-  final bool isHorizontalSwipingEnabled;
-
-  /// set to false if you want your card to move only across the horizontal axis when swiping
-  final bool isVerticalSwipingEnabled;
+  final List<CardSwiperDirection> enabledDirections;
 
   /// set to true if the stack should loop
   final bool isLoop;
@@ -71,8 +67,12 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     this.onEnd,
     this.overlayBuilder,
     this.direction = CardSwiperDirection.right,
-    this.isHorizontalSwipingEnabled = true,
-    this.isVerticalSwipingEnabled = true,
+    this.enabledDirections = const [
+      CardSwiperDirection.left,
+      CardSwiperDirection.top,
+      CardSwiperDirection.right,
+      CardSwiperDirection.bottom
+    ],
     this.isLoop = true,
     required this.cardBuilder,
   })  : assert(
@@ -208,10 +208,14 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         onPanUpdate: (tapInfo) {
           if (!widget.isDisabled) {
             setState(() {
-              if (widget.isHorizontalSwipingEnabled) {
+              if (widget.enabledDirections.contains(CardSwiperDirection.left) ||
+                  widget.enabledDirections
+                      .contains(CardSwiperDirection.right)) {
                 _left += tapInfo.delta.dx;
               }
-              if (widget.isVerticalSwipingEnabled) {
+              if (widget.enabledDirections.contains(CardSwiperDirection.top) ||
+                  widget.enabledDirections
+                      .contains(CardSwiperDirection.bottom)) {
                 _top += tapInfo.delta.dy;
               }
               _total = _left + _top;
@@ -368,10 +372,17 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
     }
   }
 
+
   void _onEndAnimation() {
-    if (_left < -widget.threshold || _left > widget.threshold) {
+    if (_left < -widget.threshold &&
+            widget.enabledDirections.contains(CardSwiperDirection.left) ||
+        _left > widget.threshold &&
+            widget.enabledDirections.contains(CardSwiperDirection.right)) {
       _swipeHorizontal(context);
-    } else if (_top < -widget.threshold || _top > widget.threshold) {
+    } else if (_top < -widget.threshold &&
+            widget.enabledDirections.contains(CardSwiperDirection.top) ||
+        _top > widget.threshold &&
+            widget.enabledDirections.contains(CardSwiperDirection.bottom)) {
       _swipeVertical(context);
     } else {
       _goBack(context);
