@@ -37,8 +37,6 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   /// function that gets called when there is no widget left to be swiped away
   final CardSwiperOnEnd? onEnd;
 
-  final CardSwiperItemBuilder builder;
-
   final CardSwiperCardBuilder cardBuilder;
 
   final CardSwiperOverlayBuilder? overlayBuilder;
