@@ -120,14 +120,15 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   late Animation<double> _scaleAnimation;
   late Animation<double> _differenceAnimation;
 
-  final List<T> _stack = [];
+  // final List<T> _stack = [];
 
   CardSwiperDirection detectedDirection = CardSwiperDirection.none;
 
   double get _maxAngle => widget.maxAngle * (pi / 180);
 
   int get _currentIndex => widget.controller.currentIndex;
-  bool get _canSwipe => _stack.isNotEmpty && !widget.isDisabled;
+  bool get _isFinished => _currentIndex == widget.itemCount;
+  bool get _canSwipe => _currentIndex <= widget.itemCount && !widget.isDisabled;
   bool get _hasFrontItem => _currentIndex < widget.itemCount;
   bool get _hasMiddleItem => _currentIndex + 1 < widget.itemCount;
   bool get _hasBackItem => _currentIndex + 2 < widget.itemCount;
@@ -407,7 +408,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
             widget.controller.enabled = false;
           }
 
-          if (_stack.isEmpty) {
+          if (_isFinished) {
             widget.onEnd?.call();
           }
         }
