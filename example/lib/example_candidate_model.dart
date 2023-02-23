@@ -39,4 +39,28 @@ final List<ExampleCandidateModel> candidates = [
     city: 'Tokyo',
     color: const [Color(0xFF0BA4E0), Color(0xFFA9E4BD)],
   ),
+  ExampleCandidateModel(
+    name: 'Five, 5',
+    job: 'Developer',
+    city: 'Areado',
+    color: const [Color(0xFFFF3868), Color(0xFFFFB49A)],
+  ),
+  ExampleCandidateModel(
+    name: 'Six, 6',
+    job: 'Manager',
+    city: 'New York',
+    color: const [Color(0xFF736EFE), Color(0xFF62E4EC)],
+  ),
+  ExampleCandidateModel(
+    name: 'Seven, 7',
+    job: 'Engineer',
+    city: 'London',
+    color: const [Color(0xFF2F80ED), Color(0xFF56CCF2)],
+  ),
+  ExampleCandidateModel(
+    name: 'Eight, 8',
+    job: 'Designer',
+    city: 'Tokyo',
+    color: const [Color(0xFF0BA4E0), Color(0xFFA9E4BD)],
+  ),
 ];
