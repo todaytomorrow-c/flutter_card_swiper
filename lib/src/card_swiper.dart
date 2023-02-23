@@ -51,9 +51,6 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
 
   final List<CardSwiperDirection> enabledDirections;
 
-  /// set to true if the stack should loop
-  final bool isLoop;
-
   const CardSwiper({
     Key? key,
     required this.cards,
@@ -75,7 +72,6 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
       CardSwiperDirection.right,
       CardSwiperDirection.bottom
     ],
-    this.isLoop = true,
     required this.cardBuilder,
   })  : assert(
           maxAngle >= 0 && maxAngle <= 360,
@@ -128,8 +124,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
 
   int get _currentIndex => _stack.length - 1;
   bool get _canSwipe => _stack.isNotEmpty && !widget.isDisabled;
-  bool get _hasBackItem => _stack.length > 2 || widget.isLoop;
-  bool get _hasMiddleItem => _stack.length > 1 || widget.isLoop;
+  bool get _hasBackItem => _stack.length > 2;
+  bool get _hasMiddleItem => _stack.length > 1;
 
   @override
   void initState() {
@@ -338,10 +334,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
 
           if (_stack.isEmpty) {
             widget.onEnd?.call();
-
-            if (widget.isLoop) {
-              _stack.addAll(widget.cards);
-            }
           }
         }
         _animationController.reset();
