@@ -1,4 +1,4 @@
-import 'package:example/card_label.dart';
+// import 'package:example/card_label.dart';
 import 'package:example/example_candidate_model.dart';
 import 'package:example/example_card.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +23,17 @@ class Example extends StatefulWidget {
 }
 
 class _ExamplePageState extends State<Example> {
-  final CardSwiperController controller = CardSwiperController();
+  final CardSwiperController controller = CardSwiperController(
+    enabledDirections: const [
+      CardSwiperDirection.top,
+      CardSwiperDirection.left,
+      CardSwiperDirection.right
+    ],
+  );
 
-  final cards = candidates.map((candidate) => ExampleCard(candidate)).toList();
+  final cards = candidates
+      .map((candidate) => ExampleCardContainer(child: ExampleCard(candidate)))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
@@ -39,18 +47,19 @@ class _ExamplePageState extends State<Example> {
                 cards: cards,
                 onSwipe: _swipe,
                 padding: const EdgeInsets.all(8.0),
-                cardBuilder: (context, child) =>
-                    ExampleCardContainer(child: child),
-                enabledDirections: const [
-                  CardSwiperDirection.top,
-                  CardSwiperDirection.left,
-                  CardSwiperDirection.right
-                ],
-                overlayBuilder: (context, properties) {
-                  return Container(
-                    padding: const EdgeInsets.all(24),
-                    color: Colors.black26,
-                    child: CardLabel.forDirection(properties.direction),
+                // cardBuilder: (context, child) =>
+                //     ExampleCardContainer(child: child),
+                // overlayBuilder: (context, properties) {
+                //   return Container(
+                //     padding: const EdgeInsets.all(24),
+                //     color: Colors.black26,
+                //     child: CardLabel.forDirection(properties.direction),
+                //   );
+                // },
+                itemCount: candidates.length,
+                itemBuilder: (context, properties) {
+                  return ExampleCardContainer(
+                    child: ExampleCard(candidates[properties.stackIndex]),
                   );
                 },
               ),
@@ -65,19 +74,33 @@ class _ExamplePageState extends State<Example> {
                   //   child: const Icon(Icons.rotate_right),
                   // ),
                   FloatingActionButton(
-                    onPressed: controller.swipeLeft,
+                    onPressed: controller.enabledDirections
+                            .contains(CardSwiperDirection.left)
+                        ? controller.swipeLeft
+                        : null,
                     child: const Icon(Icons.keyboard_arrow_left),
                   ),
                   FloatingActionButton(
-                    onPressed: controller.swipeRight,
+                    onPressed: controller.enabledDirections
+                            .contains(CardSwiperDirection.right)
+                        ? controller.swipeRight
+                        : null,
                     child: const Icon(Icons.keyboard_arrow_right),
                   ),
                   FloatingActionButton(
-                    onPressed: controller.swipeTop,
+                    onPressed: controller.enabledDirections
+                            .contains(CardSwiperDirection.top)
+                        ? controller.swipeTop
+                        : null,
                     child: const Icon(Icons.keyboard_arrow_up),
                   ),
                   FloatingActionButton(
-                    onPressed: controller.swipeBottom,
+                    disabledElevation: 0,
+                    backgroundColor: Colors.amberAccent,
+                    onPressed: controller.enabledDirections
+                            .contains(CardSwiperDirection.bottom)
+                        ? controller.swipeBottom
+                        : null,
                     child: const Icon(Icons.keyboard_arrow_down),
                   ),
                 ],

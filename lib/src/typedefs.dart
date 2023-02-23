@@ -14,6 +14,11 @@ typedef CardSwiperCardBuilder = Widget Function(
   Widget child,
 );
 
+typedef CardSwiperItemBuilder = Widget Function(
+  BuildContext context,
+  ItemSwipeProperties swipeProperty,
+);
+
 /// Builder for displaying an overlay on the most foreground card.
 typedef CardSwiperOverlayBuilder = Widget Function(
   BuildContext context,
