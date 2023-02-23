@@ -44,7 +44,7 @@ class _ExamplePageState extends State<Example> {
             Flexible(
               child: CardSwiper(
                 controller: controller,
-                cards: cards,
+                // cards: cards,
                 onSwipe: _swipe,
                 padding: const EdgeInsets.all(8.0),
                 // cardBuilder: (context, child) =>

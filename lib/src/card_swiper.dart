@@ -8,7 +8,7 @@ part 'typedefs.dart';
 
 class CardSwiper<T extends Widget> extends StatefulWidget {
   /// list of widgets for the swiper
-  final List<T> cards;
+  // final List<T> cards;
 
   /// controller to trigger actions
   final CardSwiperController controller;
@@ -55,7 +55,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
 
   const CardSwiper({
     Key? key,
-    required this.cards,
+    // required this.cards,
     required this.itemBuilder,
     required this.itemCount,
     required this.controller,
@@ -137,7 +137,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   void initState() {
     super.initState();
 
-    _stack.addAll(widget.cards);
+    // _stack.addAll(widget.cards);
 
     widget.controller.addListener(_controllerListener);
 
