@@ -124,8 +124,9 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
 
   int get _currentIndex => _stack.length - 1;
   bool get _canSwipe => _stack.isNotEmpty && !widget.isDisabled;
-  bool get _hasBackItem => _stack.length > 2;
   bool get _hasMiddleItem => _stack.length > 1;
+  bool get _hasBackItem => _stack.length > 2;
+  bool get _hasHiddenItem => _stack.length > 3;
 
   @override
   void initState() {
@@ -163,6 +164,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
                 fit: StackFit.expand,
                 alignment: AlignmentDirectional.topCenter,
                 children: [
+                  if (_hasHiddenItem) _hiddenItem(constraints),
                   if (_hasBackItem) _backItem(constraints),
                   if (_hasMiddleItem) _middleItem(constraints),
                   if (_stack.isNotEmpty) _frontItem(constraints),
@@ -286,6 +288,28 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
                     ? widget.cards[_currentIndex - 1]
                     : widget.cards[_currentIndex - 2],
           )),
+    );
+  }
+
+  Widget _hiddenItem(BoxConstraints constraints) {
+    final opacity = (_initialDifference - _difference) / _initialDifference;
+    return Positioned(
+      top: _initialDifference + (_initialDifference * _initialScale),
+      left: 0,
+      child: Opacity(
+        opacity: opacity,
+        child: Transform.scale(
+            origin: const Offset(0.5, 1.0),
+            scale: _initialScale * _initialScale,
+            child: _cardBox(
+              constraints: constraints,
+              child: _stack.length <= 1
+                  ? widget.cards.last
+                  : _stack.length <= 2
+                      ? widget.cards[_currentIndex - 1]
+                      : widget.cards[_currentIndex - 2],
+            )),
+      ),
     );
   }
 
