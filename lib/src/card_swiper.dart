@@ -335,7 +335,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
       top: _initialDifference + (_initialDifference * _initialScale),
       left: 0,
       child: Opacity(
-        opacity: opacity,
+        opacity: opacity.clamp(0, 1),
         child: Transform.scale(
           origin: const Offset(0.5, 1.0),
           scale: _initialScale * _initialScale,
