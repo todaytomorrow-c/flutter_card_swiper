@@ -158,6 +158,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   void dispose() {
     super.dispose();
     _animationController.dispose();
+    widget.controller.removeListener(_controllerListener);
     widget.controller.dispose();
   }
 
@@ -215,18 +216,18 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
             final renderBox = context.findRenderObject()! as RenderBox;
             final position = renderBox.globalToLocal(tapInfo.globalPosition);
 
-            if (position.dy < renderBox.size.height / 2) _tapOnTop = true;
+            if (position.dy < (renderBox.size.height / 3) * 2) _tapOnTop = true;
           }
         },
         onPanUpdate: (tapInfo) {
           if (!widget.isDisabled) {
             setState(() {
-              if (widget.controller.enabledHorizontalSwipe) {
-                _left += tapInfo.delta.dx;
-              }
-              if (widget.controller.enabledVerticalSwipe) {
-                _top += tapInfo.delta.dy;
-              }
+              // if (widget.controller.enabledHorizontalSwipe) {
+              _left += tapInfo.delta.dx;
+              // }
+              // if (widget.controller.enabledVerticalSwipe) {
+              _top += tapInfo.delta.dy;
+              // }
               _total = _left + _top;
               _calculateAngle();
               _calculateScale();
