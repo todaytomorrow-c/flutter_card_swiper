@@ -68,15 +68,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     this.onTapDisabled,
     this.onSwipe,
     this.onEnd,
-    // this.overlayBuilder,
     this.direction = CardSwiperDirection.right,
-    // this.enabledDirections = const [
-    //   CardSwiperDirection.left,
-    //   CardSwiperDirection.top,
-    //   CardSwiperDirection.right,
-    //   CardSwiperDirection.bottom
-    // ],
-    // required this.cardBuilder,
   })  : assert(
           maxAngle >= 0 && maxAngle <= 360,
           'maxAngle must be between 0 and 360',
@@ -89,10 +81,6 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
           direction != CardSwiperDirection.none,
           'direction must not be none',
         ),
-        // assert(
-        //   scale >= 0 && scale <= 1,
-        //   'scale must be between 0 and 1',
-        // ),
         super(key: key);
 
   @override
@@ -120,8 +108,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   late Animation<double> _scaleAnimation;
   late Animation<double> _differenceAnimation;
 
-  // final List<T> _stack = [];
-
   CardSwiperDirection detectedDirection = CardSwiperDirection.none;
 
   double get _maxAngle => widget.maxAngle * (pi / 180);
@@ -137,8 +123,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   @override
   void initState() {
     super.initState();
-
-    // _stack.addAll(widget.cards);
 
     widget.controller.addListener(_controllerListener);
 
@@ -222,12 +206,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         onPanUpdate: (tapInfo) {
           if (!widget.isDisabled) {
             setState(() {
-              // if (widget.controller.enabledHorizontalSwipe) {
               _left += tapInfo.delta.dx;
-              // }
-              // if (widget.controller.enabledVerticalSwipe) {
               _top += tapInfo.delta.dy;
-              // }
               _total = _left + _top;
               _calculateAngle();
               _calculateScale();
@@ -282,9 +262,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         scale: _scale,
         child: _cardBox(
           constraints: constraints,
-          // child: _stack.length <= 1
-          //     ? widget.cards.last
-          //     : widget.cards[_currentIndex - 1],
           child: widget.itemBuilder(
             context,
             ItemSwipeProperties(
@@ -309,11 +286,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         scale: _scale * _initialScale,
         child: _cardBox(
           constraints: constraints,
-          // child: _stack.length <= 1
-          //     ? widget.cards.last
-          //     : _stack.length <= 2
-          //         ? widget.cards[_currentIndex - 1]
-          //         : widget.cards[_currentIndex - 2],
           child: widget.itemBuilder(
             context,
             ItemSwipeProperties(
@@ -341,11 +313,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
           scale: _initialScale * _initialScale,
           child: _cardBox(
             constraints: constraints,
-            // child: _stack.length <= 1
-            //     ? widget.cards.last
-            //     : _stack.length <= 2
-            //         ? widget.cards[_currentIndex - 1]
-            //         : widget.cards[_currentIndex - 2],
             child: widget.itemBuilder(
               context,
               ItemSwipeProperties(
@@ -403,7 +370,6 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
       setState(() {
         if (_swipeType == SwipeType.swipe) {
           widget.onSwipe?.call(_currentIndex, detectedDirection);
-          // _stack.removeAt(_currentIndex);
           widget.controller.currentIndex = _currentIndex + 1;
           if (_currentIndex >= widget.itemCount) {
             widget.controller.enabled = false;
@@ -627,32 +593,4 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
 
     _swipeType = SwipeType.back;
   }
-
-  // Widget _buildCard({
-  //   required BoxConstraints constraints,
-  //   required Widget child,
-  // }) {
-  //   final card = widget.cardBuilder.call(context, child);
-
-  //   return card;
-  // }
-
-  // Widget _buildOverlay({
-  //   required BoxConstraints constraints,
-  //   required CardSwiperDirection direction,
-  // }) {
-  //   final overlay = widget.overlayBuilder?.call(
-  //     context,
-  //     OverlaySwipeProperties(
-  //       index: _currentIndex,
-  //       constraints: constraints,
-  //       direction: direction,
-  //       swipeProgress: _progress,
-  //     ),
-  //   );
-  //   return Opacity(
-  //     opacity: min(_progress, 1),
-  //     child: overlay,
-  //   );
-  // }
 }
