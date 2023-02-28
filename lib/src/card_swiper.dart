@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'dart:math';
+import 'package:flip_card/flip_card.dart';
+import 'package:flip_card/flip_card_controller.dart';
 import 'package:flutter/widgets.dart';
 
 part 'card_swiper_controller.dart';
@@ -40,6 +43,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   final int itemCount;
 
   final CardSwiperItemBuilder itemBuilder;
+  final Widget Function(BuildContext context, int index) detailsBuilder;
 
   // final CardSwiperCardBuilder cardBuilder;
 
@@ -56,8 +60,9 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   const CardSwiper({
     Key? key,
     // required this.cards,
-    required this.itemBuilder,
     required this.itemCount,
+    required this.itemBuilder,
+    required this.detailsBuilder,
     required this.controller,
     this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
     this.duration = const Duration(milliseconds: 200),
@@ -107,6 +112,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
   late Animation<double> _topAnimation;
   late Animation<double> _scaleAnimation;
   late Animation<double> _differenceAnimation;
+
+  final flipController = FlipCardController();
 
   CardSwiperDirection detectedDirection = CardSwiperDirection.none;
 
@@ -189,6 +196,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
       left: _left,
       child: GestureDetector(
         onTap: () {
+          unawaited(flipController.toggleCard());
+
           if (widget.isDisabled) {
             widget.onTapDisabled?.call();
           } else {
@@ -228,24 +237,20 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
           angle: _angle,
           child: _cardBox(
             constraints: constraints,
-            // child: Stack(
-            //   children: [
-            //     widget.cards[_currentIndex],
-            //     Positioned.fill(
-            //       child: _buildOverlay(
-            //           constraints: constraints, direction: detectedDirection),
-            //     ),
-            //   ],
-            // ),
-            child: widget.itemBuilder(
-              context,
-              ItemSwipeProperties(
-                index: 0,
-                stackIndex: _currentIndex,
-                constraints: constraints,
-                direction: detectedDirection,
-                swipeProgress: _progress,
+            child: FlipCard(
+              flipOnTouch: false,
+              controller: flipController,
+              front: widget.itemBuilder(
+                context,
+                ItemSwipeProperties(
+                  index: 0,
+                  stackIndex: _currentIndex,
+                  constraints: constraints,
+                  direction: detectedDirection,
+                  swipeProgress: _progress,
+                ),
               ),
+              back: widget.detailsBuilder(context, _currentIndex),
             ),
           ),
         ),

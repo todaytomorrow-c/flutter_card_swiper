@@ -62,6 +62,14 @@ class _ExamplePageState extends State<Example> {
                     child: ExampleCard(candidates[properties.stackIndex]),
                   );
                 },
+                detailsBuilder: (context, index) {
+                  return ExampleCardContainer(
+                    child: ColoredBox(
+                      color: Colors.orange,
+                      child: Text(candidates[index].name),
+                    ),
+                  );
+                },
               ),
             ),
             Padding(
