@@ -44,18 +44,8 @@ class _ExamplePageState extends State<Example> {
             Flexible(
               child: CardSwiper(
                 controller: controller,
-                // cards: cards,
                 onSwipe: _swipe,
                 padding: const EdgeInsets.all(8.0),
-                // cardBuilder: (context, child) =>
-                //     ExampleCardContainer(child: child),
-                // overlayBuilder: (context, properties) {
-                //   return Container(
-                //     padding: const EdgeInsets.all(24),
-                //     color: Colors.black26,
-                //     child: CardLabel.forDirection(properties.direction),
-                //   );
-                // },
                 itemCount: candidates.length,
                 itemBuilder: (context, properties) {
                   return ExampleCardContainer(
@@ -64,9 +54,11 @@ class _ExamplePageState extends State<Example> {
                 },
                 detailsBuilder: (context, index) {
                   return ExampleCardContainer(
-                    child: ColoredBox(
-                      color: Colors.orange,
-                      child: Text(candidates[index].name),
+                    child: SizedBox.expand(
+                      child: ColoredBox(
+                        color: Colors.amber,
+                        child: Text(candidates[index].name),
+                      ),
                     ),
                   );
                 },
