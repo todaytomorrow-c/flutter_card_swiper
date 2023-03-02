@@ -228,6 +228,7 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
         },
         onPanEnd: (tapInfo) {
           if (_canSwipe) {
+            flipController.toggleCardWithoutAnimation();
             _tapOnTop = false;
             _onEndAnimation();
             _animationController.forward();
