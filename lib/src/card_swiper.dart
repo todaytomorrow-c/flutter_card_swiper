@@ -45,6 +45,8 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
   final CardSwiperItemBuilder itemBuilder;
   final Widget Function(BuildContext context, int index) detailsBuilder;
 
+  final WidgetBuilder? emptyBuilder;
+
   // final CardSwiperCardBuilder cardBuilder;
 
   // final CardSwiperOverlayBuilder? overlayBuilder;
@@ -63,6 +65,7 @@ class CardSwiper<T extends Widget> extends StatefulWidget {
     required this.itemCount,
     required this.itemBuilder,
     required this.detailsBuilder,
+    this.emptyBuilder,
     required this.controller,
     this.padding = const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
     this.duration = const Duration(milliseconds: 200),
@@ -166,6 +169,8 @@ class _CardSwiperState<T extends Widget> extends State<CardSwiper<T>>
                 fit: StackFit.expand,
                 alignment: AlignmentDirectional.topCenter,
                 children: [
+                  if (widget.emptyBuilder != null)
+                    widget.emptyBuilder!(context),
                   if (_hasHiddenItem) _hiddenItem(constraints),
                   if (_hasBackItem) _backItem(constraints),
                   if (_hasMiddleItem) _middleItem(constraints),
